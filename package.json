@@ -10,6 +10,11 @@
     "test": "jest"
   },
   "dependencies": {
+    "@chainsafe/libp2p-noise": "^13.0.1",
+    "@chainsafe/libp2p-yamux": "^5.0.0",
+    "@libp2p/bootstrap": "^9.0.8",
+    "@libp2p/mdns": "^9.0.10",
+    "@libp2p/tcp": "^8.0.9",
     "libp2p": "^0.46.14",
     "react": "18.2.0",
     "react-native": "0.72.5"
