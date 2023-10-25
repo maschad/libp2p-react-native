@@ -1,18 +1,14 @@
 import {createLibp2p} from 'libp2p';
-import {tcp} from '@libp2p/tcp';
 import {yamux} from '@chainsafe/libp2p-yamux';
 import {noise} from '@chainsafe/libp2p-noise';
-import {mdns} from '@libp2p/mdns';
 import {bootstrap} from '@libp2p/bootstrap';
+import {webSockets} from '@libp2p/websockets';
 
 export const node = await createLibp2p({
-  transports: [tcp()],
+  transports: [webSockets()],
   streamMuxers: [yamux()],
   connectionEncryption: [noise()],
   peerDiscovery: [
-    mdns({
-      interval: 1000,
-    }),
     bootstrap({
       list: [
         // A list of bootstrap peers to connect to starting up the node

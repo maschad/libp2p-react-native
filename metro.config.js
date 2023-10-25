@@ -6,6 +6,15 @@ const {getDefaultConfig, mergeConfig} = require('@react-native/metro-config');
  *
  * @type {import('metro-config').MetroConfig}
  */
-const config = {};
+const config = {
+  resolver: {
+    unstable_enablePackageExports: true,
+    extraNodeModules: {
+      crypto: require.resolve('react-native-get-random-values'),
+      url: require.resolve('react-native-url-polyfill/auto'),
+      assert: require.resolve('@react-native/js-polyfills'),
+    },
+  },
+};
 
 module.exports = mergeConfig(getDefaultConfig(__dirname), config);
