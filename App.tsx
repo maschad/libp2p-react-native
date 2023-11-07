@@ -18,7 +18,7 @@ import {
 } from 'react-native';
 
 import {Colors, Header} from 'react-native/Libraries/NewAppScreen';
-import {node} from './libp2p';
+import {createNode} from './libp2p';
 
 type SectionProps = PropsWithChildren<{
   title: string;
@@ -50,16 +50,21 @@ function Section({children, title}: SectionProps): JSX.Element {
   );
 }
 
-async function App(): Promise<JSX.Element> {
+function App(): JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
 
   const [connections, setConnections] = React.useState(0);
 
-  await node.start();
-
-  node.addEventListener('peer:connect', () => {
-    setConnections(connections + 1);
-  });
+  React.useEffect(() => {
+    createNode().then(node => {
+      node.addEventListener('peer:connect', () => {
+        setConnections(c => c + 1);
+      });
+      node.addEventListener('peer:disconnect', () => {
+        setConnections(c => c - 1);
+      });
+    });
+  }, []);
 
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
@@ -79,8 +84,8 @@ async function App(): Promise<JSX.Element> {
           style={{
             backgroundColor: isDarkMode ? Colors.black : Colors.white,
           }}>
-          <Section title="libp2p">
-            Connections: <Text style={styles.highlight}> {connections}</Text>
+          <Section title="Connections">
+            <Text style={styles.highlight}>{connections}</Text>
           </Section>
         </View>
       </ScrollView>

@@ -10,14 +10,16 @@
     "test": "jest"
   },
   "dependencies": {
-    "@chainsafe/libp2p-noise": "^13.0.1",
+    "@chainsafe/libp2p-noise": "^13.0.2",
     "@chainsafe/libp2p-yamux": "^5.0.0",
-    "@libp2p/bootstrap": "^9.0.8",
-    "@libp2p/websockets": "^7.0.9",
+    "@libp2p/bootstrap": "^9.0.10",
+    "@libp2p/websockets": "^7.0.11",
     "@react-native/js-polyfills": "^0.74.0",
-    "libp2p": "^0.46.14",
+    "event-target-polyfill": "^0.0.4",
+    "fast-text-encoding": "^1.0.6",
+    "libp2p": "^0.46.18",
     "react": "18.2.0",
-    "react-native": "0.72.5",
+    "react-native": "0.72.6",
     "react-native-get-random-values": "^1.9.0",
     "react-native-url-polyfill": "^2.0.0"
   },
@@ -38,6 +40,9 @@
     "prettier": "^2.4.1",
     "react-test-renderer": "18.2.0",
     "typescript": "4.8.4"
+  },
+  "resolutions": {
+    "dns-over-http-resolver": "^3.0.0"
   },
   "engines": {
     "node": ">=16"
