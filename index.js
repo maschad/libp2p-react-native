@@ -1,8 +1,7 @@
 /**
  * @format
  */
-
-import 'react-native-get-random-values';
+import 'react-native-quick-crypto';
 import 'react-native-url-polyfill/auto';
 import '@react-native/js-polyfills';
 import 'event-target-polyfill';

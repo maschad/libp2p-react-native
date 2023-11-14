@@ -8,17 +8,21 @@
 import React from 'react';
 import type {PropsWithChildren} from 'react';
 import {
+  Button,
   SafeAreaView,
   ScrollView,
   StatusBar,
   StyleSheet,
   Text,
+  TextInput,
   useColorScheme,
   View,
 } from 'react-native';
 
 import {Colors, Header} from 'react-native/Libraries/NewAppScreen';
 import {createNode} from './libp2p';
+import {Libp2p} from 'libp2p';
+import {multiaddr} from '@multiformats/multiaddr';
 
 type SectionProps = PropsWithChildren<{
   title: string;
@@ -54,6 +58,8 @@ function App(): JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
 
   const [connections, setConnections] = React.useState(0);
+  const [libp2pNode, setNode] = React.useState<Libp2p>();
+  const [maToDial, setMaToDial] = React.useState('');
 
   React.useEffect(() => {
     createNode().then(node => {
@@ -63,11 +69,22 @@ function App(): JSX.Element {
       node.addEventListener('peer:disconnect', () => {
         setConnections(c => c - 1);
       });
+      setNode(node);
     });
   }, []);
 
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
+  };
+
+  const dialNode = async () => {
+    if (!libp2pNode) {
+      console.log('no node');
+      return;
+    }
+    const connection = await libp2pNode.dial(multiaddr(maToDial));
+
+    console.log('connection is:', connection);
   };
 
   return (
@@ -86,6 +103,17 @@ function App(): JSX.Element {
           }}>
           <Section title="Connections">
             <Text style={styles.highlight}>{connections}</Text>
+          </Section>
+          <Section title="Dial a multiaddr">
+            <View>
+              <TextInput
+                style={styles.textInput}
+                onChangeText={setMaToDial}
+                value={maToDial}
+                placeholder="multiaddr to dial"
+              />
+              <Button title="Dial" onPress={dialNode} />
+            </View>
           </Section>
         </View>
       </ScrollView>
@@ -109,6 +137,13 @@ const styles = StyleSheet.create({
   },
   highlight: {
     fontWeight: '700',
+  },
+  textInput: {
+    height: 40,
+    width: 100,
+    margin: 12,
+    borderWidth: 1,
+    padding: 10,
   },
 });
 
